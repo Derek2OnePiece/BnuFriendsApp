@@ -13,7 +13,7 @@ import time
 
 
 class DB:
-    _server_address = "115.28.130.170"
+    _server_address = "112.126.65.223"
     _port = 27017
     _db_name = "bnu_friends"
 

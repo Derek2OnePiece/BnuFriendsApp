@@ -285,7 +285,36 @@ class DB:
                  .find({'news_id': news_id})\
                  .count()
 
-        
+    #==========================================================================
+    # email operations
+    #
+    #    _id                
+    #    sender_id          || ObjectId      || 发信者id
+    #    receiver_id        || ObjectId      || 收信者id
+    #    send_timestamp     || long          || 发信时间
+    #    msg                || string        ||
+    #
+    #==========================================================================
+    def add_email(self, sender_id, receiver_id, msg):
+        email = {'sender_id': sender_id,
+                 'receiver_id': receiver_id,
+                 'send_timestamp': long(time.time()),
+                 'msg': msg, }
+        return self.get_collection('email').insert(email)
+    
+    def get_k_email_by_timestamp_user_id(self, begin_timestamp, user_id, k):
+        return self.get_collection('email')\
+            .find({'$or': [{'sender_id': user_id, },
+                           {'receiver_id': user_id}, ],
+                   'send_timestamp': {'$lte': begin_timestamp}}).limit(k)
+            # .sort([('send_timestamp', pymongo.DESCENDING)]).limit(k)
+    
+    def get_email_count_by_timestamp_user_id(self, timestamp, user_id):
+        return self.get_collection('email')\
+            .find({'receiver_id': user_id,
+                   'send_timestamp': {'$gte': timestamp}})\
+            .count()
+           
         
         
         

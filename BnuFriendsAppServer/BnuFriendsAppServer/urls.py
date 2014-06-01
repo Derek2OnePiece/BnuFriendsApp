@@ -20,6 +20,7 @@ urlpatterns = patterns('',
     (r'^appserver/news/', include('BnuFriendsAppServer.src.urls.news_urls')),
     (r'^appserver/comment/', include('BnuFriendsAppServer.src.urls.comment_urls')),
     (r'^appserver/revision/', include('BnuFriendsAppServer.src.urls.revision_urls')),
+    (r'^appserver/email/', include('BnuFriendsAppServer.src.urls.email_urls')),
     (r'^appserver/p/images/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.IMAGES_PATH}),
     (r'^appserver/repos/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.REPOS_PATH}),
 

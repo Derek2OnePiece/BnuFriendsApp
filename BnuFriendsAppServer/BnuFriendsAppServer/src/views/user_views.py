@@ -277,7 +277,7 @@ def search_friends_action(request):
         # end for
         res['code'] = 0
         res['msg'] = r'搜索用户成功'
-        # res['count'] = raw_user_list.count()
+        res['count'] = raw_user_list.count()
         res['friends'] = friends
     else:
         res['code'] = 0

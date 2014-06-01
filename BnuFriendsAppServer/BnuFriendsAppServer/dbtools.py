@@ -120,63 +120,63 @@ class DB:
         # 1111
         if name is not None and year is not None and dept is not None and city is not None:
             return self.get_collection('user').find({'name': name, 'year': year, 'dept': dept, 'city': city, })\
-                .sort('reg_timestamp', pymongo.DESCENDING).skip(startk).limit(limitk)
+                .skip(startk).limit(limitk)
         # 1110
         if name is not None and year is not None and dept is not None and city is None:
             return self.get_collection('user').find({'name': name, 'year': year, 'dept': dept, })\
-                .sort('reg_timestamp', pymongo.DESCENDING).skip(startk).limit(limitk)
+                .skip(startk).limit(limitk)
         # 1101
         if name is not None and year is not None and dept is None and city is not None:
             return self.get_collection('user').find({'name': name, 'year': year, 'city': city,})\
-                .sort('reg_timestamp', pymongo.DESCENDING).skip(startk).limit(limitk)
+                .skip(startk).limit(limitk)
         # 1100
         if name is not None and year is not None and dept is None and city is None:
             return self.get_collection('user').find({'name': name, 'year': year, })\
-                .sort('reg_timestamp', pymongo.DESCENDING).skip(startk).limit(limitk)
+                .skip(startk).limit(limitk)
         # 1011
         if name is not None and year is None and dept is not None and city is not None:
             return self.get_collection('user').find({'name': name, 'dept': dept, 'city': city, })\
-                .sort('reg_timestamp', pymongo.DESCENDING).skip(startk).limit(limitk)        
+                .skip(startk).limit(limitk)        
         # 1010
         if name is not None and year is None and dept is not None and city is None:
             return self.get_collection('user').find({'name': name, 'dept': dept })\
-                .sort('reg_timestamp', pymongo.DESCENDING).skip(startk).limit(limitk)
+                .skip(startk).limit(limitk)
         # 1001
         if name is not None and year is None and dept is None and city is not None:
             return self.get_collection('user').find({'name': name, 'dept': dept, })\
-                .sort('reg_timestamp', pymongo.DESCENDING).skip(startk).limit(limitk)
+                .skip(startk).limit(limitk)
         # 1000
         if name is not None and year is None and dept is None and city is None:
             return self.get_collection('user').find({'name': name, })\
-                .sort('reg_timestamp', pymongo.DESCENDING).skip(startk).limit(limitk)
+                .skip(startk).limit(limitk)
         # 0111
         if name is None and year is not None and dept is not None and city is not None:
             return self.get_collection('user').find({'year': year, 'dept': dept, 'city': city, })\
-                .sort('reg_timestamp', pymongo.DESCENDING).skip(startk).limit(limitk)
+                .skip(startk).limit(limitk)
         # 0110
         if name is None and year is not None and dept is not None and city is None:
             return self.get_collection('user').find({'year': year, 'dept': dept, })\
-                .sort('reg_timestamp', pymongo.DESCENDING).skip(startk).limit(limitk)
+                .skip(startk).limit(limitk)
         # 0101
         if name is None and year is not None and dept is None and city is not None:
             return self.get_collection('user').find({'year': year, 'city': city, })\
-                .sort('reg_timestamp', pymongo.DESCENDING).skip(startk).limit(limitk)
+                .skip(startk).limit(limitk)
         # 0100
         if name is None and year is not None and dept is None and city is None:
             return self.get_collection('user').find({'year': year, })\
-                .sort('reg_timestamp', pymongo.DESCENDING).skip(startk).limit(limitk)
+                .skip(startk).limit(limitk)
         # 0011
         if name is None and year is None and dept is not None and city is not None:
             return self.get_collection('user').find({'dept': dept, 'city': city, })\
-                .sort('reg_timestamp', pymongo.DESCENDING).skip(startk).limit(limitk)
+                .skip(startk).limit(limitk)
         # 0010
         if name is None and year is None and dept is not None and city is None:
             return self.get_collection('user').find({'dept': dept, })\
-                .sort('reg_timestamp', pymongo.DESCENDING).skip(startk).limit(limitk)
+                .skip(startk).limit(limitk)
         # 0001
         if name is None and year is None and dept is None and city is not None:
             return self.get_collection('user').find({'city': city, })\
-                .sort('reg_timestamp', pymongo.DESCENDING).skip(startk).limit(limitk)
+                .skip(startk).limit(limitk)
     
     #==========================================================================
     # news operations

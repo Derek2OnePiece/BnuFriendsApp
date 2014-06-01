@@ -16,7 +16,7 @@ class UploadTestData():
         self.num_news = self.get_num_of_elem('news')
 
     def upload(self):
-        self.upload_user()
+        # self.upload_user()
         self.upload_news_1()
         self.upload_news_2()
         self.upload_news_3()

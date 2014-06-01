@@ -26,10 +26,9 @@ class DBTest(unittest.TestCase):
         self.num_news = self.get_num_of_elem('news')
 
         # add default test user
-        self.default_user_id = self.db.add_user(self.default_email,
-                                                self.default_password,
-                                                self.default_name,
-                                                self.default_usertype)
+        # self.default_user_id = self.db.add_user(self.default_email,
+        #                                         self.default_password,
+        #                                         self.default_name)
         # add default test news
         self.default_news_id = self.db.add_news(self.default_news_type,
                                                 self.default_title,

@@ -56,6 +56,7 @@ class DB:
     #    phone           || string    ||
     #    gender          || int       || 默认0；0-male；1-female
     #    signature       || string    || 个性签名
+    #    reg_timestamp   || long      || 注册时间
     #
     #==========================================================================
     
@@ -79,7 +80,8 @@ class DB:
                 'avatar_sub_url': avatar_sub_url, 
                 'phone': phone,
                 'gender': gender,
-                'signature': signature, }
+                'signature': signature,
+                'reg_timestamp':  long(time.time()), }
         return self.get_collection('user').insert(user, safe=True)
 
     def check_user_exist_by_email(self, email):
@@ -113,6 +115,68 @@ class DB:
                               'phone': phone,
                               'gender': gender,
                               'signature': signature, }})
+    
+    def find_user_by_name_year_dept_city(self, name, year, dept, city, startk, limitk):
+        # 1111
+        if name is not None and year is not None and dept is not None and city is not None:
+            return self.get_collection('user').find({'name': name, 'year': year, 'dept': dept, 'city': city, })\
+                .sort('reg_timestamp', pymongo.DESCENDING).skip(startk).limit(limitk)
+        # 1110
+        if name is not None and year is not None and dept is not None and city is None:
+            return self.get_collection('user').find({'name': name, 'year': year, 'dept': dept, })\
+                .sort('reg_timestamp', pymongo.DESCENDING).skip(startk).limit(limitk)
+        # 1101
+        if name is not None and year is not None and dept is None and city is not None:
+            return self.get_collection('user').find({'name': name, 'year': year, 'city': city,})\
+                .sort('reg_timestamp', pymongo.DESCENDING).skip(startk).limit(limitk)
+        # 1100
+        if name is not None and year is not None and dept is None and city is None:
+            return self.get_collection('user').find({'name': name, 'year': year, })\
+                .sort('reg_timestamp', pymongo.DESCENDING).skip(startk).limit(limitk)
+        # 1011
+        if name is not None and year is None and dept is not None and city is not None:
+            return self.get_collection('user').find({'name': name, 'dept': dept, 'city': city, })\
+                .sort('reg_timestamp', pymongo.DESCENDING).skip(startk).limit(limitk)        
+        # 1010
+        if name is not None and year is None and dept is not None and city is None:
+            return self.get_collection('user').find({'name': name, 'dept': dept })\
+                .sort('reg_timestamp', pymongo.DESCENDING).skip(startk).limit(limitk)
+        # 1001
+        if name is not None and year is None and dept is None and city is not None:
+            return self.get_collection('user').find({'name': name, 'dept': dept, })\
+                .sort('reg_timestamp', pymongo.DESCENDING).skip(startk).limit(limitk)
+        # 1000
+        if name is not None and year is None and dept is None and city is None:
+            return self.get_collection('user').find({'name': name, })\
+                .sort('reg_timestamp', pymongo.DESCENDING).skip(startk).limit(limitk)
+        # 0111
+        if name is None and year is not None and dept is not None and city is not None:
+            return self.get_collection('user').find({'year': year, 'dept': dept, 'city': city, })\
+                .sort('reg_timestamp', pymongo.DESCENDING).skip(startk).limit(limitk)
+        # 0110
+        if name is None and year is not None and dept is not None and city is None:
+            return self.get_collection('user').find({'year': year, 'dept': dept, })\
+                .sort('reg_timestamp', pymongo.DESCENDING).skip(startk).limit(limitk)
+        # 0101
+        if name is None and year is not None and dept is None and city is not None:
+            return self.get_collection('user').find({'year': year, 'city': city, })\
+                .sort('reg_timestamp', pymongo.DESCENDING).skip(startk).limit(limitk)
+        # 0100
+        if name is None and year is not None and dept is None and city is None:
+            return self.get_collection('user').find({'year': year, })\
+                .sort('reg_timestamp', pymongo.DESCENDING).skip(startk).limit(limitk)
+        # 0011
+        if name is None and year is None and dept is not None and city is not None:
+            return self.get_collection('user').find({'dept': dept, 'city': city, })\
+                .sort('reg_timestamp', pymongo.DESCENDING).skip(startk).limit(limitk)
+        # 0010
+        if name is None and year is None and dept is not None and city is None:
+            return self.get_collection('user').find({'dept': dept, })\
+                .sort('reg_timestamp', pymongo.DESCENDING).skip(startk).limit(limitk)
+        # 0001
+        if name is None and year is None and dept is None and city is not None:
+            return self.get_collection('user').find({'city': city, })\
+                .sort('reg_timestamp', pymongo.DESCENDING).skip(startk).limit(limitk)
     
     #==========================================================================
     # news operations
@@ -192,24 +256,7 @@ class DB:
                  
     def get_news_detail_by_id(self, news_id):
         return self.get_collection('news').find_one({'_id': news_id})
-    
-    """
-    def get_comments_by_news_id(self, news_id):
-        raw_news =  self.get_collection('news').find_one({'_id': news_id})
-        if raw_news is not None:
-            return raw_news['comments']
-        else:
-            return None
-    
-    def add_comment(self, news_id, user_id, msg):
-        exist = self.get_collection('news').find_one({'_id': news_id}) != None
-        if exist:
-            return self.get_collection('news')\
-            .update({'_id': news_id},
-                    {'$push': {'comments': {'user_id': user_id, 'msg': msg}}})
-        else:
-            return False
-    """    
+
     #==========================================================================
     # comment operations
     #

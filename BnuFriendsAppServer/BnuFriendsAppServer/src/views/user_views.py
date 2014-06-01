@@ -221,4 +221,70 @@ def get_user_profile_action(request):
         res['msg'] = r'获得用户详情失败'
         
     return HttpResponse(json.dumps(res), )
+
+
+def search_friends_action(request):
+    if 'name' in request.POST and request.POST['name'] != r'':
+        name = request.POST['name']    
+    else:
+        name = None
     
+    if 'year' in request.POST and request.POST['year'] != 0:
+        year = int(request.POST['year'])    
+    else:
+        year = None
+    
+    if 'dept' in request.POST and request.POST['dept'] != r'':
+        dept = request.POST['dept']    
+    else:
+        dept = None
+        
+    if 'city' in request.POST and request.POST['city'] != r'':
+        city = request.POST['city']    
+    else:
+        city = None
+    
+    startk = int(request.POST['start'])
+    limitk = int(request.POST['k'])
+    
+    raw_user_list = \
+      db.find_user_by_name_year_dept_city(name, year, dept, city, startk, limitk)
+    
+    res = {}
+    friends = []
+    if raw_user_list is not None:
+        for raw_user in raw_user_list:
+            if raw_user['avatar_sub_url'] != '':
+                avatar_url = os.path.join(settings.IMAGES_URL_PREFIX, 
+                                      r'user_avatar',
+                                      raw_user['avatar_sub_url'])
+            else:
+                avatar_url = r''
+            friends.append({'userid': str(raw_user['_id']),
+                            'email': raw_user['email'],
+                            'name': raw_user['name'],
+                            'dept': raw_user['dept'],
+                            'year': raw_user['year'],
+                            'degree': raw_user['degree'],
+                            'province': raw_user['province'],
+                            'city': raw_user['city'],
+                            'qq': raw_user['qq'],
+                            'company': raw_user['company'],     
+                            'phone': raw_user['phone'],
+                            'gender': raw_user['gender'],
+                            'avatar_url': avatar_url,
+                            })
+        # end for
+        res['code'] = 0
+        res['msg'] = r'搜索用户成功'
+        # res['count'] = raw_user_list.count()
+        res['friends'] = friends
+    else:
+        res['code'] = 0
+        res['msg'] = r'没有搜索到用户'
+        res['count'] = 0
+        res['friends'] = friends
+    
+    return HttpResponse(json.dumps(res), )
+    
+

@@ -29,37 +29,31 @@ class DB:
 
     def get_collection(self, name):
         return self.get_db()[name]
-    '''
+    
     def setup_index(self):
         """
         ensure index according to data model
         should be called only once before any of the methods is invoked
         """
-        self.get_collection('query').ensure_index([('project_id', 1),
-                                                     ('user_id', 1),
-                                                     ('timestamp',
-                                                      pymongo.DESCENDING)])
-        self.get_collection('query').ensure_index([('projcet_id', 1), ('user_id', 1),
-                                                   ('keyword', 1)], unique=True)
-        self.get_collection('notification').ensure_index([('project_id', 1),
-                                                          ('user_id', 1),
-                                                          ('type', 1),
-                                                          ('recommend_help_type', 1),
-                                                          ('timestamp',
-                                                           pymongo.DESCENDING)])
-    '''
+        pass
+    
     #==========================================================================
     # user operations
     #
     #    _id
     #    email           || int       ||
-    #    password        || int       ||
-    #    name            || string    || 昵称
-    #    user_type       || string    || 0-学生；1-校友；2-教师
+    #    password        || string    ||
+    #    name            || string    || 真实姓名
     #    is_admin        || int       || 默认0；0-普通用户；1-管理员
-    #    avater_sub_url  || string    || 头像文件相对路径
+    #    dept            || string    || 学院
+    #    year            || int       || 毕业年份
+    #    degree          || string    || 学历
+    #    province        || string    || 毕业后所在省
+    #    city            || string    || 毕业后所在城市
+    #    qq              || string    || qq or 微信
+    #    company         || string    || 毕业后所在公司
+    #    avatar_sub_url  || string    || 头像文件相对路径
     #    phone           || string    ||
-    #    sid             || string    || 学号 or 教师号
     #    gender          || int       || 默认0；0-male；1-female
     #    signature       || string    || 个性签名
     #
@@ -67,18 +61,25 @@ class DB:
     
     # TODO
     # store password encoded
-    
-    def add_user(self, email, password, name, user_type, is_admin = 0):
+    def add_user(self, email, password, name, is_admin = 0,
+                 dept = r'', year = 2014, degree = r'', province = r'',
+                 city = r'', qq = r'', company = r'', avatar_sub_url = r'',
+                 phone = r'', gender = 0, signature = r''):
         user = {'email':email,
                 'password':password,
                 'name': name,
-                'user_type': user_type, 
-                'is_admin': is_admin, 
-                'avatar_sub_url': '', 
-                'phone': '',
-                'sid': '',
-                'gender': 0,
-                'signature': '', }
+                'is_admin': is_admin,
+                'dept': dept,
+                'year': year,
+                'degree': degree,
+                'province': province,
+                'city': city,
+                'qq': qq,
+                'company': company,
+                'avatar_sub_url': avatar_sub_url, 
+                'phone': phone,
+                'gender': gender,
+                'signature': signature, }
         return self.get_collection('user').insert(user, safe=True)
 
     def check_user_exist_by_email(self, email):
@@ -88,7 +89,6 @@ class DB:
     def login(self, email, password):
         return self.get_collection('user').find_one({'email': email, 
                                                      'password': password})
-
     
     def login_admin(self, email, password):
         pass
@@ -96,16 +96,23 @@ class DB:
     def get_user_info_by_id(self, user_id):
         return self.get_collection('user').find_one({'_id': user_id})
     
-    def update_user_profile(self, user_id, name = None, avatar_sub_url = r'0.jpeg', 
-                            phone = '', sid = '', gender = 0, signature = ''):
+    def update_user_profile(self, user_id, name, dept, year, degree,
+                            province, city, qq, company, phone, 
+                            gender, signature, avatar_sub_url, ):
         return self.get_collection('user')\
             .update({'_id': user_id},
                     {'$set': {'name': name,
-                              'avatar_sub_url': avatar_sub_url,
+                              'dept': dept,
+                              'year': year,
+                              'degree': degree,
+                              'province': province,
+                              'city': city,
+                              'qq': qq,
+                              'company': company,
+                              'avatar_sub_url': avatar_sub_url, 
                               'phone': phone,
-                              'sid': sid,
                               'gender': gender,
-                              'signature': signature}})
+                              'signature': signature, }})
     
     #==========================================================================
     # news operations

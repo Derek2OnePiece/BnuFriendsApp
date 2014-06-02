@@ -172,7 +172,7 @@ IMAGES_URL_PREFIX = r'appserver/p/images'
 REPO_URL_PREFIX = r'appserver/repos'
 
 
-REVISION_NO = 1
+REVISION_NO = 2
 REVISION_FILE = r'v0.1.0.apk'
 REVISION_MSG = r'初始化版本'
 

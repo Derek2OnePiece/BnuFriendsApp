@@ -18,8 +18,8 @@ class UploadTestData():
     def upload(self):
         # self.upload_user()
         self.upload_news_1()
-        self.upload_news_2()
-        self.upload_news_3()
+        # self.upload_news_2()
+        # self.upload_news_3()
         
     def tearDown(self):       
         if self.num_user + 1 != self.get_num_of_elem('user'):
@@ -57,7 +57,7 @@ class UploadTestData():
     #==========================================================================
     def upload_news_1(self):
         news_type = 0
-        title = r'【京师人物】何克抗：蓄力十年“助跑”农村娃'
+        title = r'【测试数据】【京师人物】何克抗：蓄力十年“助跑”农村娃'
         abstract = r'一个二年级的农村学生，能够阅读简写版的《三国演义》'
         body = r'“一个二年级的农村学生，能够阅读简写版的《三国演义》？能手写出150字以上结构完整、通顺流畅的文章？”在“最不适合人类居住”的宁夏西海固地区农村教师眼中这简直是天方夜谭。然而，这么不可思议的事情却真实地发生在这片土地上。'
         author = r'北京师范大学'

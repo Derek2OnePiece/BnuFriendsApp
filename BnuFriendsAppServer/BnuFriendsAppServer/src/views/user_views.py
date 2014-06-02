@@ -166,7 +166,7 @@ def update_user_profile_action(request):
                                    avatar_sub_url)
         image.save(avatar_path,"jpeg")
     else:
-        avatar_sub_url = r'0.jpeg'
+        avatar_sub_url = cur_user_info['avatar_sub_url']
     
     db.update_user_profile(user_id = user_id, 
                            name = name, 

@@ -58,7 +58,7 @@ def login_action(request):
     res = {}
     if user is not None:
         res['code'] = 0
-        res['msg'] = r'login success'
+        res['msg'] = r'登陆成功'
         res['userid'] = str(user['_id'])
         res['email'] = user['email']
         res['name'] = user['name']
@@ -80,7 +80,7 @@ def login_action(request):
             res['avatar_url'] = ''        
     else:
         res['code'] = 1
-        res['msg'] = r'login error'
+        res['msg'] = r'登陆失败'
         
     return HttpResponse(json.dumps(res), )
 
@@ -183,7 +183,7 @@ def update_user_profile_action(request):
                            avatar_sub_url = avatar_sub_url )
     res = {}
     res['code'] = 0
-    res['msg'] = r'update success'
+    res['msg'] = r'更新用户资料成功'
     res['userid'] = str(user_id)
 
     return HttpResponse(json.dumps(res), )

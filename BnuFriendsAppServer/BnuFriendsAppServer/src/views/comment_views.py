@@ -74,7 +74,8 @@ def get_comments_action(request):
     
     res = {'code': 0,
            'count': raw_comment_list.count(),
-           'comment_list': comment_list, }    
+           'comment_list': comment_list,
+           'msg': r'评论加载成功' }    
         
     return HttpResponse(json.dumps(res), )
 

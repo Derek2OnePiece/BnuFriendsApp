@@ -68,7 +68,7 @@ def list_news_action(request):
     
     res = {}
     res['code'] = 0
-    res['msg'] = r'加载成功'
+    res['msg'] = r'新闻加载成功'
     res['count'] = raw_news_list.count()
     res['list'] = news_list
     return HttpResponse(json.dumps(res), )
@@ -90,7 +90,7 @@ def get_news_count_action(request):
     
     res = {}
     res['code'] = 0
-    res['msg'] = r'加载成功'
+    res['msg'] = r'获取新闻计数成功'
     res['count'] = count
     return HttpResponse(json.dumps(res), )
         
@@ -103,7 +103,7 @@ def get_news_detail_action(request):
     res = {}
     if raw_news_detail is not None:
         res['code'] = 0
-        res['msg'] = r'获取页面详情成功'
+        res['msg'] = r'获取新闻详情成功'
         res['news_id'] = str(raw_news_detail['_id'])
         res['title'] = raw_news_detail['title']
         res['abstract'] = raw_news_detail['abstract']
@@ -119,7 +119,7 @@ def get_news_detail_action(request):
         res['comment_count'] = db.get_comment_count_by_news_id(news_id)
     else:
         res['code'] = 1
-        res['msg'] = r'获取页面详情失败'
+        res['msg'] = r'获取新闻详情失败'
     return HttpResponse(json.dumps(res), )
         
 

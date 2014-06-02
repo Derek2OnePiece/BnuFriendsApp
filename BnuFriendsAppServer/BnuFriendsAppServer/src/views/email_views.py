@@ -63,7 +63,7 @@ def get_email_action(request):
     
     res = {}
     res['code'] = 0
-    res['msg'] = r'加载成功'
+    res['msg'] = r'邮件加载成功'
     res['count'] = raw_mail_list.count()
     res['mail_list'] = mail_list
     return HttpResponse(json.dumps(res), )

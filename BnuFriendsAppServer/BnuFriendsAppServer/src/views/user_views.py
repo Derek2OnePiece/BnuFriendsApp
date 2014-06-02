@@ -224,6 +224,7 @@ def get_user_profile_action(request):
 
 
 def search_friends_action(request):
+    user_id = ObjectId(request.POST['userid'])
     if 'name' in request.POST and request.POST['name'] != r'':
         name = request.POST['name']    
     else:
@@ -254,6 +255,10 @@ def search_friends_action(request):
     friends = []
     if raw_user_list is not None:
         for raw_user in raw_user_list:
+            # 跳过搜索用户
+            if raw_user['_id'] is user_id:
+                continue
+            
             if raw_user['avatar_sub_url'] != '':
                 avatar_url = os.path.join(settings.IMAGES_URL_PREFIX, 
                                       r'user_avatar',

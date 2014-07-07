@@ -4,7 +4,7 @@ $(function () {
     }
 
     var newsTypeList = {0:'图文',1:'视频'},
-        moduleList = {1:'资讯',2:'教学',3:'学术',4:'课堂',5:'互动'},
+        moduleList = {1:'资讯'},
         pCallback = function () {
             var file;
 

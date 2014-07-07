@@ -10,35 +10,13 @@ import dbtools
 
 class UploadTestData():
     db = dbtools.DB()
-    
-    def setUp(self):
-        self.num_user = self.get_num_of_elem('user')
-        self.num_news = self.get_num_of_elem('news')
 
     def upload(self):
         # self.upload_user()
-        self.upload_news_1()
+        self.upload_admin()
+        # self.upload_news_1()
         # self.upload_news_2()
         # self.upload_news_3()
-        
-    def tearDown(self):       
-        if self.num_user + 1 != self.get_num_of_elem('user'):
-            print "user expected %d, get %d" % (self.num_user + 1, 
-                                                self.get_num_of_elem('user'))
-            sys.exit(0)
-        if self.num_news + 1 != self.get_num_of_elem('news'):
-            print "news expected %d, get %d" % (self.num_news + 1,
-                                                self.get_num_of_elem('news'))
-            sys.exit(0)
-            
-    def get_num_of_elem(self, collection_name):
-        return self.db.get_collection(collection_name).find().count()
-
-    def get_by_id(self, collection_name, object_id):
-        return self.db.get_collection(collection_name).find_one({'_id':object_id})
-
-    def remove_by_id(self, collection_name, object_id):
-        self.db.get_collection(collection_name).remove({'_id':object_id})
 
     #==========================================================================
     # user operations
@@ -51,7 +29,14 @@ class UploadTestData():
                              r'北京师范大学',
                              r'1',
                              r'56.jpg')
-        
+            
+    def upload_admin(self, ):
+        self.default_admin_email = r'admin2014@bnu.edu.cn'
+        if not self.db.check_user_exist_by_email(self.default_admin_email):
+            self.db.add_user(email = self.default_admin_email,
+                             password = r'admin2014bnu',
+                             name = r'北京师范大学校友会',
+                             is_admin = 1, )    
     #==========================================================================
     # news operations
     #==========================================================================

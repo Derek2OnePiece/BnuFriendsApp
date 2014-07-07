@@ -82,7 +82,7 @@ class DB:
                 'gender': gender,
                 'signature': signature,
                 'reg_timestamp':  long(time.time()), }
-        return self.get_collection('user').insert(user, safe=True)
+        return self.get_collection('user').insert(user)
 
     def check_user_exist_by_email(self, email):
         return self.get_collection('user')\
@@ -93,7 +93,9 @@ class DB:
                                                      'password': password})
     
     def login_admin(self, email, password):
-        pass
+        return self.get_collection('user').find_one({'email': email,
+                                                     'password': password,
+                                                     'is_admin': 1})
     
     def get_user_info_by_id(self, user_id):
         return self.get_collection('user').find_one({'_id': user_id})
@@ -197,34 +199,62 @@ class DB:
     #    video_target_url         || string    ||
     #
     #==========================================================================
-    def add_news(self, news_type, title, abstract, body, author,
-                 module, pub_status = 0, is_delete = 0,
-                 inner_pic_sub_url = r'',
-                 video_target_url = r''):   
+    def admin_add_news(self, 
+                       news_type, 
+                       title, 
+                       abstract,
+                       author,
+                       module, 
+                       pub_status = 0, 
+                       is_delete = 0,
+                       body = r'',
+                       inner_pic_sub_url = r'',
+                       video_target_url = r''):   
         timestamp = long(time.time())
         raw_news = {'news_type': news_type,
                     'title': title,
                     'abstract': abstract,
-                    'body': body,
                     'author': author,
                     'module': module,
                     'created_timestamp': timestamp,
                     'last_modify_timestamp': timestamp, 
-                    'pub_timestamp': timestamp,
+                    'pub_timestamp': None,
                     'pub_status': pub_status,
                     'is_delete': is_delete,
+                    'delete_timestamp': None,
+                    'body': body,
                     'inner_pic_sub_url': inner_pic_sub_url,
                     'video_target_url': video_target_url, }
         return self.get_collection('news').insert(raw_news)
     
-    def update_pub_timestamp(self,):
+    def admin_get_news_info_by_id(self, news_id):
+        return self.get_collection('news').find_one({'_id': news_id})
+    
+    def admin_update_news_detail(self, ):
         pass
     
-    def update_pub_status(self, ):
-        pass
+    def admin_update_pub_status(self, news_id, pub_status):
+        timestamp = long(time.time())
+        return self.get_collection('news')\
+            .update({'_id': news_id},
+                    {'$set': {'pub_status': pub_status,
+                              'pub_timestamp': timestamp,
+                              'last_modify_timestamp': timestamp, }})
     
-    def update_is_delete_status(self,):
-        pass
+    def admin_delete_news(self, news_id):
+        timestamp = long(time.time())
+        return self.get_collection('news')\
+            .update({'_id': news_id},
+                    {'$set': {'pub_status': 0,
+                              'is_delete': 1,
+                              'delete_timestamp': timestamp,
+                              'last_modify_timestamp': timestamp, }})
+    
+    def admin_get_k_news_by_is_delete(self, start, k):
+        return self.get_collection('news')\
+                 .find({'is_delete': 0})\
+                 .sort('last_modify_timestamp', pymongo.DESCENDING)\
+                 .skip(start).limit(k)
     
     def get_k_news_by_timestamp_pub_status_module(self, cur_timestamp,
                                                         module, 

@@ -72,12 +72,12 @@ def login_action(request):
         res['phone'] = user['phone']
         res['gender'] = user['gender']
         res['signature'] = user['signature']
-        if user['avatar_sub_url'] != '':
+        if user['avatar_sub_url'] != r'':
             res['avatar_url'] = os.path.join(settings.IMAGES_URL_PREFIX, 
                                              r'user_avatar',
                                              user['avatar_sub_url'])
         else:
-            res['avatar_url'] = ''        
+            res['avatar_url'] = r''        
     else:
         res['code'] = 1
         res['msg'] = r'登陆失败'
@@ -145,7 +145,7 @@ def update_user_profile_action(request):
         
     # gender
     if 'gender' in request.POST and request.POST['gender'] is not None:
-        gender = request.POST['gender']    
+        gender = int(request.POST['gender'])    
     else:
         gender = cur_user_info['gender']
         
@@ -196,7 +196,7 @@ def get_user_profile_action(request):
     
     if user_info is not None:
         res['code'] = 0
-        res['msg'] = r'获得用户详情成功'
+        res['msg'] = r'获取用户详情成功'
         res['userid'] = str(user_info['_id'])
         res['email'] = user_info['email']
         res['name'] = user_info['name']
@@ -218,7 +218,7 @@ def get_user_profile_action(request):
             res['avatar_url'] = ''        
     else:
         res['code'] = 1
-        res['msg'] = r'获得用户详情失败'
+        res['msg'] = r'获取用户详情失败'
         
     return HttpResponse(json.dumps(res), )
 
